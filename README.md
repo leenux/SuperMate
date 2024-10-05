@@ -1,7 +1,16 @@
 ### SuperWoW and SuperMacro helper
 `ifCasting` is used to determine exactly what the target is casting
+
 Other feature will add if requires.
-Depend on:[SuperWoW](https://github.com/balakethelock/SuperWoW)  [SuperMacro](https://github.com/Monteo/SuperMacro) [Quiver](https://github.com/SabineWren/Quiver) [Roid-Macros](https://github.com/DennisWG/Roid-Macros)
+
+### Depend on:
+[SuperWoW](https://github.com/balakethelock/SuperWoW)  
+
+[SuperMacro](https://github.com/Monteo/SuperMacro) 
+
+[Quiver](https://github.com/SabineWren/Quiver) 
+
+[Roid-Macros](https://github.com/DennisWG/Roid-Macros)
 
 ### Example Beast Hunter solo one key macro
 ```/run c=CastSpellByName
