@@ -1,0 +1,6 @@
+## Interface: 11200
+## Title: SuperMate
+## Author: leenux
+## Notes: |cff00ff00SuperWoW|r and |cff00ff00SuperMacro|r helper
+## Version: 1
+SuperMate.lua
