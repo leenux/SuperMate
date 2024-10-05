@@ -33,7 +33,7 @@ Other feature will add if requires.
 /run if GetUnitName("target")==nil then TargetNearestEnemy() end
 /run PetAttack()
 /run if melee then AutoAttack() else AutoShot() end
-/run if Roids.GetSpellCooldownByName("Intimidation") == 0 and ifCasting and petCombat then c("Intimidation") end
+/run if Roids.GetSpellCooldownByName("Intimidation") == 0 and SuperMate.ifCasting and petCombat then c("Intimidation") end
 /run if not melee then HuntersMark() end
 /run if not melee then Serpent() end
 /run if Roids.GetSpellCooldownByName("Bestial Wrath") == 0 and petCombat and tarh>0.8 then c("Bestial Wrath") end
