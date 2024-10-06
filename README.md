@@ -1,6 +1,10 @@
 ### SuperWoW and SuperMacro helper
-`ifCasting` is used to determine exactly what the target is casting
-Other feature will add if requires.
+`SM_ifCastingIncludeName()` is used to determine exactly what the target is casting
+#### Parameter
+- no have param: all casting duration > 2.5s return true
+- string: casting name include the param string return true,for example "Healing"
+  
+Other features will add if requires.
 Depend on:
 
 [SuperWoW](https://github.com/balakethelock/SuperWoW)  
