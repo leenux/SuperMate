@@ -49,7 +49,7 @@ This example depend on:
 /run if not melee then HuntersMark() end
 /run if not melee and not tarType ~= "Elemental" and not tarType ~= "Mechanical" then Serpent() end
 
-/run When solo, cast Bestial Wrath before target health > 80%
+/run --When solo, cast Bestial Wrath before target health > 80%
 /run if Roids.GetSpellCooldownByName("Bestial Wrath") == 0 and petCombat and tarh>0.8 then c("Bestial Wrath") end
 
 /run if melee then WingClip() end
