@@ -2,7 +2,7 @@
 `SM_ifCastingIncludeName()` is used to determine exactly what the target is casting
 #### Parameter
 - no have param: all casting duration > 2.5s return true
-- string: casting name include the param string return true,for example "Healing"
+- string: casting name include the param string and duration > 2.5s return true,for example "Healing"
   
 Other features will add if requires.
 Depend on:
@@ -43,7 +43,7 @@ This example depend on:
 /run PetAttack()
 /run if melee then AutoAttack() else AutoShot() end
 
-/run --Cast Intimidation if target casting name include Healing string
+/run --Cast Intimidation if target casting name include Healing string and duration > 2.5s
 /run if Roids.GetSpellCooldownByName("Intimidation") == 0 and SM_ifCastingIncludeName("Healing") and petCombat then c("Intimidation") end
 
 /run if not melee then HuntersMark() end
