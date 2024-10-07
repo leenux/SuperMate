@@ -103,7 +103,7 @@ function SM_IsEquipped(item)
 	return false
 end
 
-function SM_CD(name) 
+function SM_ItemCD(name) 
 	local cooldown = Roids.GetInventoryCooldownByName(name); 
 	if not cooldown then 
 		cooldown = Roids.GetContainerItemCooldownByName(name) 

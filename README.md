@@ -45,7 +45,7 @@ This example depend on:
 /run if melee then AutoAttack() else AutoShot() end
 
 /run --Cast Intimidation if target casting name include Healing string and duration > 2.5s
-/run if Roids.GetSpellCooldownByName("Intimidation") == 0 and SM_IsCastingIncludeName("Healing") and petCombat then c("Intimidation") end
+/run if Roids.GetSpellCooldownByName("Intimidation") == 0 and SM_IsCastingIncludeName()("Healing") and petCombat then c("Intimidation") end
 
 /run if not melee then HuntersMark() end
 /run if not melee and not tarType ~= "Elemental" and not tarType ~= "Mechanical" then Serpent() end
@@ -62,16 +62,16 @@ This example depend on:
 
 ```
 
-### SM_CD
+### SM_ItemCD
 
 Get item cooldown state.
 
 Usage ref below sample
 
-#### Sample SM_CD by cross-roads offhand
+#### Sample SM_ItemCD by cross-roads offhand
 ```
-/run if not SM_CD("Waters of Vision") then RunLine("/equip Skinning Knife");RunLine("/equipoh Waters of Vision");UIErrorsFrame:AddMessage("==BAT");RunLine("/use Waters of Vision");end
-/run if SM_CD("Waters of Vision") then RunLine("/equip Sturdy Quarterstaff of Power");UIErrorsFrame:AddMessage("--WEAPON");end
+/run if not SM_ItemCD("Waters of Vision") then RunLine("/equip Skinning Knife");RunLine("/equipoh Waters of Vision");UIErrorsFrame:AddMessage("==BAT");RunLine("/use Waters of Vision");end
+/run if SM_ItemCD("Waters of Vision") then RunLine("/equip Sturdy Quarterstaff of Power");UIErrorsFrame:AddMessage("--WEAPON");end
 ```
 
 ### SM_IsEquipped
