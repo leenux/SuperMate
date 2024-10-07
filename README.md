@@ -1,10 +1,11 @@
 ### SuperWoW and SuperMacro helper
-`SM_ifCastingIncludeName()` is used to determine exactly what the target is casting
+`SM_IsCastingIncludeName()` is used to determine exactly what the target is casting
 #### Parameter
 - no have param: all casting duration > 2.5s return true
 - string: casting name include the param string and duration > 2.5s return true,for example "Healing"
   
 Other features will add if requires.
+
 Depend on:
 
 [SuperWoW](https://github.com/balakethelock/SuperWoW)  
@@ -37,14 +38,14 @@ This example depend on:
 /run function Serpent() local i,x=1,0 while ud("target",i) do if ud("target",i)=="Interface\\Icons\\Ability_Hunter_Quickshot" then x=1 end i=i+1 end if x==0 then c("Serpent Sting")end end
 /run function WingClip() local i,x=1,0 while ud("target",i) do if ud("target",i)=="Interface\\Icons\\Ability_Rogue_Trip" then x=1 end i=i+1 end if x==0 then c("Wing Clip")end end
 
-/run --SM_ifCastingIncludeName depend on SuperWoW patch, Quiver.PredMidShot() and Roids.GetSpellCooldownByName need Quiver and Roid-Macros addons
+/run --SM_IsCastingIncludeName() depend on SuperWoW patch, Quiver.PredMidShot() and Roids.GetSpellCooldownByName need Quiver and Roid-Macros addons
 /run if UnitIsDead("target") then ClearTarget() end
 /run if GetUnitName("target")==nil then TargetNearestEnemy() end
 /run PetAttack()
 /run if melee then AutoAttack() else AutoShot() end
 
 /run --Cast Intimidation if target casting name include Healing string and duration > 2.5s
-/run if Roids.GetSpellCooldownByName("Intimidation") == 0 and SM_ifCastingIncludeName("Healing") and petCombat then c("Intimidation") end
+/run if Roids.GetSpellCooldownByName("Intimidation") == 0 and SM_IsCastingIncludeName()("Healing") and petCombat then c("Intimidation") end
 
 /run if not melee then HuntersMark() end
 /run if not melee and not tarType ~= "Elemental" and not tarType ~= "Mechanical" then Serpent() end
@@ -59,4 +60,26 @@ This example depend on:
 /run if not melee and not Quiver.PredMidShot() and Roids.GetSpellCooldownByName("Multi-Shot") == 0 then c("Multi-Shot") end
 /run if not melee and not Quiver.PredMidShot() then c("Trueshot") end
 
+```
+
+### SM_CD
+
+Get item cooldown state.
+
+Usage ref below sample
+
+#### Sample SM_CD by cross-roads offhand
+```
+/run if not SM_CD("Waters of Vision") then RunLine("/equip Skinning Knife");RunLine("/equipoh Waters of Vision");UIErrorsFrame:AddMessage("==BAT");RunLine("/use Waters of Vision");end
+/run if SM_CD("Waters of Vision") then RunLine("/equip Sturdy Quarterstaff of Power");UIErrorsFrame:AddMessage("--WEAPON");end
+```
+
+### SM_IsEquipped
+
+Get item equipped state.
+
+#### Sample SM_IsEquipped
+
+```
+/run if SM_IsEquipped("Waters of Vision") then UIErrorsFrame:AddMessage("Waters of Vision equipped");end
 ```
