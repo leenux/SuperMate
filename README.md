@@ -30,7 +30,7 @@ This example depend on:
 /run p =UnitHealth("player")/UnitHealthMax("player");
 /run combat =UnitAffectingCombat("player");
 /run petCombat =UnitAffectingCombat("pet");
-/run melee =CheckInteractDistance("target", 3);
+/run melee =CheckInteractDistance("target", 3) and not UnitIsDead("target");
 /run tarType =UnitCreatureType("target")
 /run function AutoAttack() for i=1,120 do if IsCurrentAction(i) then return end end c("Attack") end
 /run function AutoShot() for i=1,120 do if IsAutoRepeatAction(i) then return end end c("Auto Shot") end
