@@ -48,7 +48,7 @@ This example depend on:
 /run if Roids.GetSpellCooldownByName("Intimidation") == 0 and SM_IsCastingIncludeName("Healing") and petCombat then c("Intimidation") end
 
 /run if not melee then HuntersMark() end
-/run if not melee and not tarType ~= "Elemental" and not tarType ~= "Mechanical" then Serpent() end
+/run if not melee and tarType ~= "Elemental" and tarType ~= "Mechanical" then Serpent() end
 
 /run --When solo, cast Bestial Wrath before target health > 80%
 /run if Roids.GetSpellCooldownByName("Bestial Wrath") == 0 and petCombat and tarh>0.8 then c("Bestial Wrath") end
@@ -73,7 +73,11 @@ Usage ref below sample
 /run if not SM_ItemCD("Waters of Vision") then RunLine("/equip Skinning Knife");RunLine("/equipoh Waters of Vision");UIErrorsFrame:AddMessage("==BAT");RunLine("/use Waters of Vision");end
 /run if SM_ItemCD("Waters of Vision") then RunLine("/equip Sturdy Quarterstaff of Power");UIErrorsFrame:AddMessage("--WEAPON");end
 ```
-
+1h x2
+```
+/run if not SM_ItemCD("Waters of Vision") then RunLine("/equip Skinning Knife");RunLine("/equipoh Waters of Vision");UIErrorsFrame:AddMessage("==BAT");RunLine("/use Waters of Vision");end
+/run if SM_ItemCD("Waters of Vision") then RunLine("/equip Deadly Bronze Poniard");RunLine("/equipoh Deadly Bronze Poniard");UIErrorsFrame:AddMessage("--WEAPON");end
+```
 ### SM_IsEquipped
 
 Get item equipped state.
