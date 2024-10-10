@@ -17,7 +17,7 @@ SuperMate:SetScript("OnEvent", function()
 		b,i=UnitExists("target")
 		if i==arg2 then
 			if arg3=="START" then
-				DEFAULT_CHAT_FRAME:AddMessage("cast state:"..tostring(arg3).." -spellID:"..tostring(arg4).." -dura:"..tostring(arg5))
+				--DEFAULT_CHAT_FRAME:AddMessage("cast state:"..tostring(arg3).." -spellID:"..tostring(arg4).." -dura:"..tostring(arg5))
 				SM.spellID = arg4
 				SM.dura = arg5
 				SM.ifCasting=1
@@ -38,10 +38,10 @@ function SM_IsCastingIncludeName(SpellName)
 		return false
 	end
 	sname = SpellInfo(SM.spellID)
-	DEFAULT_CHAT_FRAME:AddMessage("-SpellName-:"..sname)
+	--DEFAULT_CHAT_FRAME:AddMessage("-SpellName-:"..sname)
 	if SpellName ~= nil then
 		if string.find(sname, SpellName) ~= nil and SM.dura > SM.defaultDura then
-			DEFAULT_CHAT_FRAME:AddMessage(sname.."-include- "..SpellName)
+			--DEFAULT_CHAT_FRAME:AddMessage(sname.."-include- "..SpellName)
 			return true
 		end
 	else
