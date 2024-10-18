@@ -59,7 +59,7 @@ This example depend on:
 
 /run if not melee and not Quiver.PredMidShot() and Roids.GetSpellCooldownByName("Multi-Shot") == 0 then c("Multi-Shot") end
 /run --Detect auto shot hang and re-boot shot, when remaining time > 1.9s we can cast Trueshot
-/run local a, b = Quiver.GetSecondsRemainingShoot(); local m, n = Quiver.GetSecondsRemainingReload();if (a and b < -0.25) or (m and n > 1.9) then CastSpellByName("Trueshot") end
+/run local a, b = Quiver.GetSecondsRemainingShoot(); local m, n = Quiver.GetSecondsRemainingReload();if (a and b < -0.25) or (m and n > 1.9) then c("Trueshot") end
 
 ```
 
