@@ -32,6 +32,7 @@ This example depend on:
 /run petCombat =UnitAffectingCombat("pet");
 /run melee =CheckInteractDistance("target", 3) and not UnitIsDead("target");
 /run tarType =UnitCreatureType("target")
+/run function FreeShot(secs) local a, b = Quiver.GetSecondsRemainingShoot(); local m, n = Quiver.GetSecondsRemainingReload(); return (a and b < -0.25) or (m and n > secs) end
 /run function AutoAttack() for i=1,120 do if IsCurrentAction(i) then return end end c("Attack") end
 /run function AutoShot() for i=1,120 do if IsAutoRepeatAction(i) then return end end c("Auto Shot") end
 /run function HuntersMark() local i,x=1,0 while ud("target",i) do if ud("target",i)=="Interface\\Icons\\Ability_Hunter_SniperShot" then x=1 end i=i+1 end if x==0 then c("Hunter's Mark")end end
@@ -58,9 +59,9 @@ This example depend on:
 /run if melee then c("Raptor Strike") end
 
 /run --Detect auto shot hang and re-boot shot, when remaining time > 0.5s we can cast multi-shot
-/run local a, b = Quiver.GetSecondsRemainingShoot(); local m, n = Quiver.GetSecondsRemainingReload(); if not melee and ((a and b < -0.25) or (m and n > 0.5)) and Roids.GetSpellCooldownByName("Multi-Shot") == 0 then c("Multi-Shot") end
+/run if not melee and FreeShot(0.5) and Roids.GetSpellCooldownByName("Multi-Shot") == 0 then c("Multi-Shot") end
 /run --Detect auto shot hang and re-boot shot, when remaining time > 1.2s we can cast Trueshot
-/run local a, b = Quiver.GetSecondsRemainingShoot(); local m, n = Quiver.GetSecondsRemainingReload();if not melee and (a and b < -0.25) or (m and n > 1.2) then c("Trueshot") end
+/run if not melee and FreeShot(1.2) then c("Trueshot") end
 
 ```
 
