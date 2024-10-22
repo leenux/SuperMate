@@ -49,6 +49,7 @@ This example depend on:
 
 /run --Cast Intimidation if target casting name include Healing string and duration > 2.5s
 /run if cd("Intimidation") == 0 and casting("Healing") and petCombat then c("Intimidation") end
+/run if not melee and casting("Healing") and FreeShot(0.5) and cd("Multi-Shot") == 0 and cd("Intimidation") ~= 0 then c("Multi-Shot") end
 
 /run if not melee then HuntersMark() end
 /run if not melee and tarType ~= "Elemental" and tarType ~= "Mechanical" then Serpent() end
