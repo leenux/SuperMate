@@ -2,11 +2,10 @@ SuperMate = CreateFrame("Frame", nil, nil)
 SuperMate:RegisterEvent("UNIT_CASTEVENT")
 
 local SM = {};
-SM.ifCasting=0
-SM.CastState=nil
 SM.spellID = 0
 SM.dura = 0
 SM.defaultDura = 2500
+SM.targetID = 0
 
 SuperMate:SetScript("OnEvent", function()
 	if not SetAutoloot then
@@ -20,13 +19,11 @@ SuperMate:SetScript("OnEvent", function()
 				--DEFAULT_CHAT_FRAME:AddMessage("cast state:"..tostring(arg3).." -spellID:"..tostring(arg4).." -dura:"..tostring(arg5))
 				SM.spellID = arg4
 				SM.dura = arg5
-				SM.ifCasting=1
-				SM.CastState=arg3
+				SM.targetID = arg2
 			else
-				SM.ifCasting=0
-				SM.CastState=nil
 				SM.spellID = 0
 				SM.dura = 0
+				SM.targetID = 0
 			end
 		end
 
@@ -34,7 +31,8 @@ SuperMate:SetScript("OnEvent", function()
 end)
 
 function SM_IsCastingIncludeName(SpellName)
-	if SM.spellID == 0 or SM.dura == 0 then
+	b,i=UnitExists("target")
+	if not b or SM.spellID == 0 or SM.dura == 0 or i~= SM.targetID then
 		return false
 	end
 	sname = SpellInfo(SM.spellID)
@@ -53,8 +51,8 @@ function SM_IsCastingIncludeName(SpellName)
 end
 
 function SM_ifCastingTime(Dura)
-	if SM.spellID == 0 or SM.dura == 0 then
-		--DEFAULT_CHAT_FRAME:AddMessage("id dura 0")
+	b,i=UnitExists("target")
+	if not b or SM.spellID == 0 or SM.dura == 0 or i~= SM.targetID then
 		return false
 	end
 	if Dura == nil then
