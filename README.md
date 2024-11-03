@@ -55,16 +55,16 @@ This example depend on:
 /run if not melee and tarType ~= "Elemental" and tarType ~= "Mechanical" then Serpent() end
 
 /run --When solo, cast Bestial Wrath before target health > 80%
-/run if cd("Bestial Wrath") == 0 and petCombat and tarh>0.8 then c("Bestial Wrath") end
+/run --if cd("Bestial Wrath") == 0 and petCombat and tarh>0.8 then c("Bestial Wrath") end
 
 /run if melee then WingClip() end
 /run if melee then c("Mongoose Bite") end
 /run if melee then c("Raptor Strike") end
 
 /run --Detect auto shot hang and re-boot shot, when remaining time > 0.5s we can cast multi-shot
-/run if not melee and FreeShot(0.5) and cd("Multi-Shot") == 0 then c("Multi-Shot") end
-/run --Detect auto shot hang and re-boot shot, when remaining time > 1.2s we can cast Trueshot
-/run if not melee and FreeShot(1.2) then c("Trueshot") end
+/run --if not melee and FreeShot(0.5) and cd("Multi-Shot") == 0 then c("Multi-Shot") end
+/run --Detect auto shot hang and re-boot shot, when remaining time > 1.2s we can cast Steady Shot
+/run --if not melee and FreeShot(1.2) then c("Steady Shot") end
 
 ```
 
