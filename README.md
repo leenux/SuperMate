@@ -21,6 +21,8 @@ This example depend on:
 
 [Roid-Macros](https://github.com/DennisWG/Roid-Macros)
 
+[MonkeySpeed](https://github.com/MarcelineVQ/MonkeySpeed)
+
 ```
 /run c = CastSpellByName
 /run ud = UnitDebuff
@@ -32,6 +34,7 @@ This example depend on:
 /run petCombat = UnitAffectingCombat("pet");
 /run cd = Roids.GetSpellCooldownByName;
 /run casting = SM_IsCastingIncludeName
+/run moving = MonkeySpeed.m_fSpeed > 0
 /run melee = CheckInteractDistance("target", 3) and not UnitIsDead("target");
 /run tarType = UnitCreatureType("target")
 /run function FreeShot(secs) local a, b = Quiver.GetSecondsRemainingShoot(); local m, n = Quiver.GetSecondsRemainingReload(); return (a and b < -0.25) or (m and n > secs) end
@@ -41,7 +44,8 @@ This example depend on:
 /run function Serpent() local i,x=1,0 while ud("target",i) do if ud("target",i)=="Interface\\Icons\\Ability_Hunter_Quickshot" then x=1 end i=i+1 end if x==0 then c("Serpent Sting")end end
 /run function WingClip() local i,x=1,0 while ud("target",i) do if ud("target",i)=="Interface\\Icons\\Ability_Rogue_Trip" then x=1 end i=i+1 end if x==0 then c("Wing Clip")end end
 
-/run --SM_IsCastingIncludeName() depend on SuperWoW patch and this addons(SuperMate), FreeShot depond on Quiver, cd depond on Roid-Macros addons
+/run --casting depend on SuperWoW patch and this addons(SuperMate), FreeShot depond on Quiver, cd depond on Roid-Macros addons
+/run --moving depend on MonkeySpeed
 /run if UnitIsDead("target") then ClearTarget() end
 /run if GetUnitName("target")==nil then TargetNearestEnemy() end
 /run PetAttack()
@@ -76,13 +80,8 @@ Usage ref below sample
 
 #### Sample SM_ItemCD by cross-roads offhand
 ```
-/run if not SM_ItemCD("Waters of Vision") then RunLine("/equip Skinning Knife");RunLine("/equipoh Waters of Vision");UIErrorsFrame:AddMessage("==BAT");RunLine("/use Waters of Vision");end
-/run if SM_ItemCD("Waters of Vision") then RunLine("/equip Sturdy Quarterstaff of Power");UIErrorsFrame:AddMessage("--WEAPON");end
+/run if not SM_ItemCD("Insignia of the Horde") then RunLine("/use Insignia of the Horde");end
 ```
-1h x2
-```
-/run if not SM_ItemCD("Waters of Vision") then RunLine("/equip Skinning Knife");RunLine("/equipoh Waters of Vision");UIErrorsFrame:AddMessage("==BAT");RunLine("/use Waters of Vision");end
-/run if SM_ItemCD("Waters of Vision") then RunLine("/equip Deadly Bronze Poniard");RunLine("/equipoh Deadly Bronze Poniard");UIErrorsFrame:AddMessage("--WEAPON");end
 ```
 ### SM_IsEquipped
 
@@ -91,5 +90,15 @@ Get item equipped state.
 #### Sample SM_IsEquipped
 
 ```
-/run if SM_IsEquipped("Waters of Vision") then UIErrorsFrame:AddMessage("Waters of Vision equipped");end
+/run if SM_IsEquipped("Insignia of the Horde") then UIErrorsFrame:AddMessage("Insignia of the Horde equipped");end
+```
+
+#### Sample moving
+```
+/run moving = MonkeySpeed.m_fSpeed
+/run if moving then CastSpellByName("Arcane Shot") end
+```
+or
+```
+/run if MonkeySpeed.m_fSpeed > 0 then CastSpellByName("Arcane Shot") end
 ```
