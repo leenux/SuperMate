@@ -94,7 +94,7 @@ Get item equipped state.
 ### Detect player movement
 #### Sample moving
 ```
-/run moving = MonkeySpeed.m_fSpeed
+/run moving = MonkeySpeed.m_fSpeed > 0
 /run if moving then CastSpellByName("Arcane Shot") end
 ```
 or
