@@ -78,10 +78,9 @@ Get item cooldown state.
 
 Usage ref below sample
 
-#### Sample SM_ItemCD by cross-roads offhand
+#### Sample SM_ItemCD of Insignia of the Horde
 ```
 /run if not SM_ItemCD("Insignia of the Horde") then RunLine("/use Insignia of the Horde");end
-```
 ```
 ### SM_IsEquipped
 
@@ -92,7 +91,7 @@ Get item equipped state.
 ```
 /run if SM_IsEquipped("Insignia of the Horde") then UIErrorsFrame:AddMessage("Insignia of the Horde equipped");end
 ```
-
+### Detect player movement
 #### Sample moving
 ```
 /run moving = MonkeySpeed.m_fSpeed
