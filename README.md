@@ -25,6 +25,7 @@ This example depend on:
 
 ```
 /run c = CastSpellByName
+/run u = UnitBuff
 /run ud = UnitDebuff
 /run tarh = UnitHealth("target")/UnitHealthMax("target");
 /run m = UnitMana("player");
@@ -43,6 +44,7 @@ This example depend on:
 /run function HuntersMark() local i,x=1,0 while ud("target",i) do if ud("target",i)=="Interface\\Icons\\Ability_Hunter_SniperShot" then x=1 end i=i+1 end if x==0 then c("Hunter's Mark")end end
 /run function Serpent() local i,x=1,0 while ud("target",i) do if ud("target",i)=="Interface\\Icons\\Ability_Hunter_Quickshot" then x=1 end i=i+1 end if x==0 then c("Serpent Sting")end end
 /run function WingClip() local i,x=1,0 while ud("target",i) do if ud("target",i)=="Interface\\Icons\\Ability_Rogue_Trip" then x=1 end i=i+1 end if x==0 then c("Wing Clip")end end
+/run function HasQuickShot() local i,x=1,0 while u("player",i) do if u("player",i)=="Interface\\Icons\\Ability_Warrior_InnerRage" then x=1 end i=i+1 end if x==1 then return true end end
 
 /run --casting depend on SuperWoW patch and this addons(SuperMate), FreeShot depond on Quiver, cd depond on Roid-Macros addons
 /run --moving depend on MonkeySpeed
@@ -52,8 +54,8 @@ This example depend on:
 /run if melee then AutoAttack() else AutoShot() end
 
 /run --Cast Intimidation if target casting name include Healing string and duration > 2.5s
-/run if cd("Intimidation") == 0 and casting("Healing") and petCombat then c("Intimidation") end
-/run if not melee and casting("Healing") and FreeShot(0.5) and cd("Multi-Shot") == 0 and cd("Intimidation") ~= 0 then c("Multi-Shot") end
+/run --if cd("Intimidation") == 0 and casting("Healing") and petCombat then c("Intimidation") end
+/run --if not melee and casting("Healing") and FreeShot(0.5) and cd("Multi-Shot") == 0 and cd("Intimidation") ~= 0 then c("Multi-Shot") end
 
 /run if not melee then HuntersMark() end
 /run if not melee and tarType ~= "Elemental" and tarType ~= "Mechanical" then Serpent() end
@@ -69,6 +71,11 @@ This example depend on:
 /run --if not melee and FreeShot(0.5) and cd("Multi-Shot") == 0 then c("Multi-Shot") end
 /run --Detect auto shot hang and re-boot shot, when remaining time > 1.2s we can cast Steady Shot
 /run --if not melee and FreeShot(1.2) then c("Steady Shot") end
+
+/run --Detect auto shot hang and re-boot shot, when remaining time > 1.5s and has Swift Aspects we can cast Aimed Shot
+/run --if not melee and FreeShot(1.5) and HasQuickShot() and cd("Aimed Shot") then c("Aimed Shot") end
+/run --Detect auto shot hang and re-boot shot, if has Swift Aspects we can cast Aimed Shot
+/run if not melee and HasQuickShot() and cd("Aimed Shot") then c("Aimed Shot") end
 
 ```
 
