@@ -73,9 +73,9 @@ This example depend on:
 /run --if not melee and FreeShot(1.2) then c("Steady Shot") end
 
 /run --Detect auto shot hang and re-boot shot, when remaining time > 1.5s and has Swift Aspects we can cast Aimed Shot
-/run --if not melee and FreeShot(1.5) and HasQuickShot() and cd("Aimed Shot") then c("Aimed Shot") end
+/run --if not melee and FreeShot(1.5) and HasQuickShot() and cd("Aimed Shot") == 0 then c("Aimed Shot") end
 /run --Detect auto shot hang and re-boot shot, if has Swift Aspects we can cast Aimed Shot
-/run if not melee and HasQuickShot() and cd("Aimed Shot") then c("Aimed Shot") end
+/run if not melee and HasQuickShot() and cd("Aimed Shot") == 0 then c("Aimed Shot") end
 
 ```
 
