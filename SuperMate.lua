@@ -6,6 +6,7 @@ SM.spellID = 0
 SM.dura = 0
 SM.defaultDura = 2500
 SM.targetID = 0
+SM.hitTime = 0
 
 SuperMate:SetScript("OnEvent", function()
 	if not SetAutoloot then
@@ -24,6 +25,9 @@ SuperMate:SetScript("OnEvent", function()
 				SM.spellID = 0
 				SM.dura = 0
 				SM.targetID = 0
+			end
+			if arg3 == "MAINHAND" then
+				SM.hitTime = GetTime();
 			end
 		end
 
@@ -108,4 +112,8 @@ function SM_ItemCD(name)
 		cooldown = Roids.GetContainerItemCooldownByName(name) 
 	end 
 	return cooldown > 0
+end
+
+function SM_Swinged()
+	return GetTime() - SM.hitTime
 end

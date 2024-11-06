@@ -45,6 +45,7 @@ This example depend on:
 /run function Serpent() local i,x=1,0 while ud("target",i) do if ud("target",i)=="Interface\\Icons\\Ability_Hunter_Quickshot" then x=1 end i=i+1 end if x==0 then c("Serpent Sting")end end
 /run function WingClip() local i,x=1,0 while ud("target",i) do if ud("target",i)=="Interface\\Icons\\Ability_Rogue_Trip" then x=1 end i=i+1 end if x==0 then c("Wing Clip")end end
 /run function HasQuickShot() local i,x=1,0 while u("player",i) do if u("player",i)=="Interface\\Icons\\Ability_Warrior_InnerRage" then x=1 end i=i+1 end if x==1 then return true end end
+/run function ap() local base, posBuff, negBuff = UnitAttackPower("player");return base + posBuff + negBuff end
 
 /run --casting depend on SuperWoW patch and this addons(SuperMate), FreeShot depond on Quiver, cd depond on Roid-Macros addons
 /run --moving depend on MonkeySpeed
@@ -107,4 +108,27 @@ Get item equipped state.
 or
 ```
 /run if MonkeySpeed.m_fSpeed > 0 then CastSpellByName("Arcane Shot") end
+```
+
+### AttackPower current value
+```
+/run function ap() local base, posBuff, negBuff = UnitAttackPower("player");return base + posBuff + negBuff end
+/run if tarh < 0.21 then if ap() > 2000 then CastSpellByName("Mortal Strike") else CastSpellByName("Execute") end end
+```
+
+### Swinged
+```
+/run m = UnitMana("player");
+/run if SM_Swinged() < 0.2 and m > 44 then CastSpellByName("Mortal Strike") end
+```
+
+### Warrior 
+
+Depond on [MonkeySpeed](https://github.com/MarcelineVQ/MonkeySpeed)   [SP_SwingTimer](https://github.com/MarcelineVQ/SP_SwingTimer)
+```
+/run local m = UnitMana("player");
+/run local melee = CheckInteractDistance("target", 3) and not UnitIsDead("target");
+/run local swinged = st_timer < 0.2
+/run local moving = MonkeySpeed.m_fSpeed > 0
+/run if melee and m > 44 and swinged and moving then CastSpellByName("Decisive Strike") end
 ```
