@@ -68,7 +68,7 @@ This example depend on:
 /run --When solo, cast Bestial Wrath before target health > 80%
 /run if hasBestial() and cd("Bestial Wrath") == 0 and petCombat and tarh>0.8 then c("Bestial Wrath") end
 
-/run if meleeand cd("Wing Clip") then WingClip() end
+/run if melee and cd("Wing Clip") then WingClip() end
 /run if melee and canTrap() and cd("Explosive Trap") then c("Explosive Trap") end
 /run if melee and hasCarve() and cd("Carve") then c("Carve") end
 /run if melee and cd("Mongoose Bite") then c("Mongoose Bite") end
