@@ -1,73 +1,4 @@
 SuperMate = CreateFrame("Frame", nil, nil)  
-SuperMate:RegisterEvent("UNIT_CASTEVENT")
-
-local SM = {};
-SM.spellID = 0
-SM.dura = 0
-SM.defaultDura = 2500
-SM.targetID = 0
-SM.hitTime = 0
-
-SuperMate:SetScript("OnEvent", function()
-	if not SetAutoloot then
-		DEFAULT_CHAT_FRAME:AddMessage("Need SuperWoW.")
-		return
-	end
-	if event == "UNIT_CASTEVENT" then
-		b,i=UnitExists("target")
-		if i==arg2 then
-			if arg3=="START" then
-				--DEFAULT_CHAT_FRAME:AddMessage("cast state:"..tostring(arg3).." -spellID:"..tostring(arg4).." -dura:"..tostring(arg5))
-				SM.spellID = arg4
-				SM.dura = arg5
-				SM.targetID = arg2
-			else
-				SM.spellID = 0
-				SM.dura = 0
-				SM.targetID = 0
-			end
-			if arg3 == "MAINHAND" then
-				SM.hitTime = GetTime();
-			end
-		end
-
-	end
-end)
-
-function SM_IsCastingIncludeName(SpellName)
-	b,i=UnitExists("target")
-	if not b or SM.spellID == 0 or SM.dura == 0 or i~= SM.targetID then
-		return false
-	end
-	sname = SpellInfo(SM.spellID)
-	--DEFAULT_CHAT_FRAME:AddMessage("-SpellName-:"..sname)
-	if SpellName ~= nil then
-		if string.find(sname, SpellName) ~= nil and SM.dura > SM.defaultDura then
-			--DEFAULT_CHAT_FRAME:AddMessage(sname.."-include- "..SpellName)
-			return true
-		end
-	else
-		if SM.dura > SM.defaultDura then
-			return true
-		end
-	end
-	return false
-end
-
-function SM_ifCastingTime(Dura)
-	b,i=UnitExists("target")
-	if not b or SM.spellID == 0 or SM.dura == 0 or i~= SM.targetID then
-		return false
-	end
-	if Dura == nil then
-		Dura = SM.defaultDura
-	end
-	if SM.dura > Dura then
-		return true
-	end
-	return false
-end
-
 
 function SM.IdAndNameFromLink(link)
 	local name
@@ -114,6 +45,3 @@ function SM_ItemCD(name)
 	return cooldown > 0
 end
 
-function SM_Swinged()
-	return GetTime() - SM.hitTime
-end

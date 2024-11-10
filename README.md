@@ -1,10 +1,4 @@
 ### SuperWoW and SuperMacro helper
-`SM_IsCastingIncludeName()` is used to determine exactly what the target is casting
-#### Parameter
-- no have param: all casting duration > 2.5s return true
-- string: casting name include the param string and duration > 2.5s return true,for example "Healing"
-  
-Other features will add if requires.
 
 Depend on:
 
@@ -34,11 +28,11 @@ This example depend on:
 /run combat = UnitAffectingCombat("player");
 /run petCombat = UnitAffectingCombat("pet");
 /run cd = Roids.GetSpellCooldownByName;
-/run casting = SM_IsCastingIncludeName
 /run moving = MonkeySpeed.m_fSpeed > 0
 /run melee = CheckInteractDistance("target", 3) and not UnitIsDead("target");
 /run tarType = UnitCreatureType("target")
 /run function FreeShot(secs) local a, b = Quiver.GetSecondsRemainingShoot(); local m, n = Quiver.GetSecondsRemainingReload(); return (a and b < -0.25) or (m and n > secs) end
+/run function hang() local a, b = Quiver.GetSecondsRemainingShoot(); return a and b < -0.25 end
 /run function AutoAttack() for i=1,120 do if IsCurrentAction(i) then return end end c("Attack") end
 /run function AutoShot() for i=1,120 do if IsAutoRepeatAction(i) then return end end c("Auto Shot") end
 /run function HuntersMark() local i,x=1,0 while ud("target",i) do if ud("target",i)=="Interface\\Icons\\Ability_Hunter_SniperShot" then x=1 end i=i+1 end if x==0 then c("Hunter's Mark")end end
@@ -46,12 +40,14 @@ This example depend on:
 /run function WingClip() local i,x=1,0 while ud("target",i) do if ud("target",i)=="Interface\\Icons\\Ability_Rogue_Trip" then x=1 end i=i+1 end if x==0 then c("Wing Clip")end end
 /run function HasQuickShot() local i,x=1,0 while u("player",i) do if u("player",i)=="Interface\\Icons\\Ability_Warrior_InnerRage" then x=1 end i=i+1 end if x==1 then return true end end
 /run function ap() local base, posBuff, negBuff = UnitAttackPower("player");return base + posBuff + negBuff end
+/run function casting(s) local spName, _, _, _, time1, time2, _ = ShaguTweaks.UnitCastingInfo("target");local ss = s or "";if spName and time2-time1>2500 and string.find(spName,ss) then return true; end end
 
 /run --casting depend on SuperWoW patch and this addons(SuperMate), FreeShot depond on Quiver, cd depond on Roid-Macros addons
 /run --moving depend on MonkeySpeed
 /run if UnitIsDead("target") then ClearTarget() end
 /run if GetUnitName("target")==nil then TargetNearestEnemy() end
 /run PetAttack()
+/run if hang() then c("Attack") end
 /run if melee then AutoAttack() else AutoShot() end
 
 /run --Cast Intimidation if target casting name include Healing string and duration > 2.5s
@@ -76,7 +72,7 @@ This example depend on:
 /run --Detect auto shot hang and re-boot shot, when remaining time > 1.5s and has Swift Aspects we can cast Aimed Shot
 /run --if not melee and FreeShot(1.5) and HasQuickShot() and cd("Aimed Shot") == 0 then c("Aimed Shot") end
 /run --Detect auto shot hang and re-boot shot, if has Swift Aspects we can cast Aimed Shot
-/run if not melee and HasQuickShot() and cd("Aimed Shot") == 0 then c("Aimed Shot") end
+/run --if not melee and HasQuickShot() and cd("Aimed Shot") == 0 then c("Aimed Shot") end
 
 ```
 
@@ -84,7 +80,7 @@ This example depend on:
 
 Get item cooldown state.
 
-Usage ref below sample
+Usage:
 
 #### Sample SM_ItemCD of Insignia of the Horde
 ```
@@ -112,17 +108,23 @@ or
 
 ### AttackPower current value
 ```
+/run local m = UnitMana("player");
+/run local melee = CheckInteractDistance("target", 3) and not UnitIsDead("target");
+/run local swinged = st_timer < 0.2
+/run local moving = MonkeySpeed.m_fSpeed > 0
 /run function ap() local base, posBuff, negBuff = UnitAttackPower("player");return base + posBuff + negBuff end
+
 /run if tarh < 0.21 then if ap() > 2000 then CastSpellByName("Mortal Strike") else CastSpellByName("Execute") end end
 ```
 
 ### Swinged
 ```
 /run m = UnitMana("player");
-/run if SM_Swinged() < 0.2 and m > 44 then CastSpellByName("Mortal Strike") end
+/run local swinged = st_timer < 0.2
+/run if swinged and m > 44 then CastSpellByName("Mortal Strike") end
 ```
 
-### Warrior 
+### Warrior Decisive Strike
 
 Depond on [MonkeySpeed](https://github.com/MarcelineVQ/MonkeySpeed)   [SP_SwingTimer](https://github.com/MarcelineVQ/SP_SwingTimer)
 ```
@@ -131,4 +133,20 @@ Depond on [MonkeySpeed](https://github.com/MarcelineVQ/MonkeySpeed)   [SP_SwingT
 /run local swinged = st_timer < 0.2
 /run local moving = MonkeySpeed.m_fSpeed > 0
 /run if melee and m > 44 and swinged and moving then CastSpellByName("Decisive Strike") end
+```
+
+### Hunter melee
+```
+/run local m = UnitMana("player");
+/run local melee = CheckInteractDistance("target", 3) and not UnitIsDead("target");
+/run local swinged = st_timer < 0.2
+/run local moving = MonkeySpeed.m_fSpeed > 0
+/run function ap() local base, posBuff, negBuff = UnitAttackPower("player");return base + posBuff + negBuff end
+
+/run if melee and ap() > 1800 and swinged and not moving then CastSpellByName("Raptor Strike") end
+```
+
+### Player buff and debuff
+```
+/script function m(s) DEFAULT_CHAT_FRAME:AddMessage(s); end for i=1,16 do s=UnitBuff("player", i); if(s) then m("B "..i..": "..s); end s=UnitDebuff("player", i); if(s) then m("D "..i..": "..s); end end
 ```
