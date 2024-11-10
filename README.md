@@ -19,6 +19,8 @@ This example depend on:
 
 [ShaguTweaks](https://github.com/shagu/ShaguTweaks)
 
+[SP_SwingTimer](https://github.com/MarcelineVQ/SP_SwingTimer)
+
 ```
 /run c = CastSpellByName
 /run u = UnitBuff
@@ -136,7 +138,7 @@ or
 
 ### Warrior Decisive Strike
 
-Depond on [MonkeySpeed](https://github.com/MarcelineVQ/MonkeySpeed)   [SP_SwingTimer](https://github.com/MarcelineVQ/SP_SwingTimer)
+Depond on [MonkeySpeed](https://github.com/MarcelineVQ/MonkeySpeed)   
 ```
 /run local m = UnitMana("player");
 /run local melee = CheckInteractDistance("target", 3) and not UnitIsDead("target");
