@@ -17,6 +17,8 @@ This example depend on:
 
 [MonkeySpeed](https://github.com/MarcelineVQ/MonkeySpeed)
 
+[ShaguTweaks](https://github.com/shagu/ShaguTweaks)
+
 ```
 /run c = CastSpellByName
 /run u = UnitBuff
