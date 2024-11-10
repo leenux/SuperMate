@@ -31,7 +31,7 @@ This example depend on:
 /run p = UnitHealth("player")/UnitHealthMax("player");
 /run combat = UnitAffectingCombat("player");
 /run petCombat = UnitAffectingCombat("pet");
-/run cd = Roids.GetSpellCooldownByName;
+/run function cd(s) return Roids.GetSpellCooldownByName(s) == 0;end
 /run moving = MonkeySpeed.m_fSpeed > 0
 /run melee = CheckInteractDistance("target", 3) and not UnitIsDead("target");
 /run tarType = UnitCreatureType("target")
@@ -45,7 +45,7 @@ This example depend on:
 /run function HasQuickShot() local i,x=1,0 while u("player",i) do if u("player",i)=="Interface\\Icons\\Ability_Warrior_InnerRage" then x=1 end i=i+1 end if x==1 then return true end end
 /run function ap() local base, posBuff, negBuff = UnitAttackPower("player");return base + posBuff + negBuff end
 /run function casting(s) local spName, _, _, _, time1, time2, _ = ShaguTweaks.UnitCastingInfo("target");local ss = s or "";if spName and time2-time1>2500 and string.find(spName,ss) then return true; end end
-/run local swinged = st_timer < 0.2
+/run swinged = st_timer and ((st_timer + 1) > UnitAttackSpeed("player"));
 /run function hasCarve() local _,texture,_,_,rank,_,_,_=GetTalentInfo(3,9);if texture then return true; end end
 /run function canTrap() local _,texture,_,_,rank,_,_,_=GetTalentInfo(3,19);if texture then return true; end end
 /run function hasIntimidation() local _,texture,_,_,rank,_,_,_=GetTalentInfo(1,13);if texture then return true; end end
@@ -61,14 +61,14 @@ This example depend on:
 /run if melee then AutoAttack() else AutoShot() end
 
 /run --Cast Intimidation if target casting name include Healing string and duration > 2.5s
-/run if hasIntimidation() and cd("Intimidation") == 0 and casting("Healing") and petCombat then c("Intimidation") end
-/run if not melee and casting("Healing") and FreeShot(0.5) and cd("Multi-Shot") == 0 and cd("Intimidation") ~= 0 then c("Multi-Shot") end
+/run if hasIntimidation() and cd("Intimidation") and casting("Healing") and petCombat then c("Intimidation") end
+/run if not melee and casting("Healing") and FreeShot(0.5) and cd("Multi-Shot") and cd("Intimidation") ~= 0 then c("Multi-Shot") end
 
 /run if not melee then HuntersMark() end
 /run if not melee and tarType ~= "Elemental" and tarType ~= "Mechanical" then Serpent() end
 
 /run --When solo, cast Bestial Wrath before target health > 80%
-/run if hasBestial() and cd("Bestial Wrath") == 0 and petCombat and tarh>0.8 then c("Bestial Wrath") end
+/run if hasBestial() and cd("Bestial Wrath") and petCombat and tarh>0.8 then c("Bestial Wrath") end
 
 /run if melee and cd("Wing Clip") then WingClip() end
 /run if melee and canTrap() and cd("Explosive Trap") then c("Explosive Trap") end
@@ -77,14 +77,14 @@ This example depend on:
 /run if melee and swinged and cd("Raptor Strike") then c("Raptor Strike") end
 
 /run --Detect auto shot hang and re-boot shot, when remaining time > 0.5s we can cast multi-shot
-/run if not melee and FreeShot(0.5) and cd("Multi-Shot") == 0 then c("Multi-Shot") end
+/run if not melee and FreeShot(0.5) and cd("Multi-Shot") then c("Multi-Shot") end
 /run --Detect auto shot hang and re-boot shot, when remaining time > 1.2s we can cast Steady Shot
 /run if not melee and hasSteady() and FreeShot(1.2) then c("Steady Shot") end
 
 /run --Detect auto shot hang and re-boot shot, when remaining time > 1.5s and has Swift Aspects we can cast Aimed Shot
-/run --if not melee and FreeShot(1.5) and HasQuickShot() and cd("Aimed Shot") == 0 then c("Aimed Shot") end
+/run --if not melee and FreeShot(1.5) and HasQuickShot() and cd("Aimed Shot") then c("Aimed Shot") end
 /run --Detect auto shot hang and re-boot shot, if has Swift Aspects we can cast Aimed Shot
-/run --if not melee and HasQuickShot() and cd("Aimed Shot") == 0 then c("Aimed Shot") end
+/run --if not melee and HasQuickShot() and cd("Aimed Shot") then c("Aimed Shot") end
 
 ```
 
