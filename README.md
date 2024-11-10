@@ -53,6 +53,7 @@ This example depend on:
 /run function hasIntimidation() local _,texture,_,_,rank,_,_,_=GetTalentInfo(1,13);if texture then return true; end end
 /run function hasBestial() local _,texture,_,_,rank,_,_,_=GetTalentInfo(1,17);if texture then return true; end end
 /run function hasSteady() local _,texture,_,_,rank,_,_,_=GetTalentInfo(2,7);if texture then return true; end end
+/run inRaid = GetNumRaidMembers() > 0;
 
 /run --casting depend on SuperWoW patch and this addons(SuperMate), FreeShot depond on Quiver, cd depond on Roid-Macros addons
 /run --moving depend on MonkeySpeed
@@ -73,7 +74,7 @@ This example depend on:
 /run if hasBestial() and cd("Bestial Wrath") and petCombat and tarh>0.8 then c("Bestial Wrath") end
 
 /run if melee and cd("Wing Clip") then WingClip() end
-/run if melee and canTrap() and cd("Explosive Trap") and not hasExplosive() then c("Explosive Trap") end
+/run local canExplosive = inRaid or not hasExplosive(); if melee and canTrap() and cd("Explosive Trap") and canExplosive then c("Explosive Trap") end
 /run if melee and hasCarve() and cd("Carve") then c("Carve") end
 /run if melee and cd("Mongoose Bite") then c("Mongoose Bite") end
 /run if melee and swinged and cd("Raptor Strike") then c("Raptor Strike") end
