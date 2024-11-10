@@ -43,6 +43,12 @@ This example depend on:
 /run function HasQuickShot() local i,x=1,0 while u("player",i) do if u("player",i)=="Interface\\Icons\\Ability_Warrior_InnerRage" then x=1 end i=i+1 end if x==1 then return true end end
 /run function ap() local base, posBuff, negBuff = UnitAttackPower("player");return base + posBuff + negBuff end
 /run function casting(s) local spName, _, _, _, time1, time2, _ = ShaguTweaks.UnitCastingInfo("target");local ss = s or "";if spName and time2-time1>2500 and string.find(spName,ss) then return true; end end
+/run local swinged = st_timer < 0.2
+/run function hasCarve() local _,texture,_,_,rank,_,_,_=GetTalentInfo(3,9);if texture then return true; end end
+/run function canTrap() local _,texture,_,_,rank,_,_,_=GetTalentInfo(3,19);if texture then return true; end end
+/run function hasIntimidation() local _,texture,_,_,rank,_,_,_=GetTalentInfo(1,13);if texture then return true; end end
+/run function hasBestial() local _,texture,_,_,rank,_,_,_=GetTalentInfo(1,17);if texture then return true; end end
+/run function hasSteady() local _,texture,_,_,rank,_,_,_=GetTalentInfo(2,7);if texture then return true; end end
 
 /run --casting depend on SuperWoW patch and this addons(SuperMate), FreeShot depond on Quiver, cd depond on Roid-Macros addons
 /run --moving depend on MonkeySpeed
@@ -53,23 +59,25 @@ This example depend on:
 /run if melee then AutoAttack() else AutoShot() end
 
 /run --Cast Intimidation if target casting name include Healing string and duration > 2.5s
-/run --if cd("Intimidation") == 0 and casting("Healing") and petCombat then c("Intimidation") end
-/run --if not melee and casting("Healing") and FreeShot(0.5) and cd("Multi-Shot") == 0 and cd("Intimidation") ~= 0 then c("Multi-Shot") end
+/run if hasIntimidation() and cd("Intimidation") == 0 and casting("Healing") and petCombat then c("Intimidation") end
+/run if not melee and casting("Healing") and FreeShot(0.5) and cd("Multi-Shot") == 0 and cd("Intimidation") ~= 0 then c("Multi-Shot") end
 
 /run if not melee then HuntersMark() end
 /run if not melee and tarType ~= "Elemental" and tarType ~= "Mechanical" then Serpent() end
 
 /run --When solo, cast Bestial Wrath before target health > 80%
-/run --if cd("Bestial Wrath") == 0 and petCombat and tarh>0.8 then c("Bestial Wrath") end
+/run if hasBestial() and cd("Bestial Wrath") == 0 and petCombat and tarh>0.8 then c("Bestial Wrath") end
 
-/run if melee then WingClip() end
-/run if melee then c("Mongoose Bite") end
-/run if melee then c("Raptor Strike") end
+/run if meleeand cd("Wing Clip") then WingClip() end
+/run if melee and canTrap() and cd("Explosive Trap") then c("Explosive Trap") end
+/run if melee and hasCarve() and cd("Carve") then c("Carve") end
+/run if melee and cd("Mongoose Bite") then c("Mongoose Bite") end
+/run if melee and swinged and cd("Raptor Strike") then c("Raptor Strike") end
 
 /run --Detect auto shot hang and re-boot shot, when remaining time > 0.5s we can cast multi-shot
-/run --if not melee and FreeShot(0.5) and cd("Multi-Shot") == 0 then c("Multi-Shot") end
+/run if not melee and FreeShot(0.5) and cd("Multi-Shot") == 0 then c("Multi-Shot") end
 /run --Detect auto shot hang and re-boot shot, when remaining time > 1.2s we can cast Steady Shot
-/run --if not melee and FreeShot(1.2) then c("Steady Shot") end
+/run if not melee and hasSteady() and FreeShot(1.2) then c("Steady Shot") end
 
 /run --Detect auto shot hang and re-boot shot, when remaining time > 1.5s and has Swift Aspects we can cast Aimed Shot
 /run --if not melee and FreeShot(1.5) and HasQuickShot() and cd("Aimed Shot") == 0 then c("Aimed Shot") end
