@@ -120,10 +120,10 @@ or
 
 ### AttackPower current value
 ```
-/run local m = UnitMana("player");
-/run local melee = CheckInteractDistance("target", 3) and not UnitIsDead("target");
-/run local swinged = st_timer < 0.2
-/run local moving = MonkeySpeed.m_fSpeed > 0
+/run m = UnitMana("player");
+/run melee = CheckInteractDistance("target", 3) and not UnitIsDead("target");
+/run swinged = st_timer and ((st_timer + 1) > UnitAttackSpeed("player"));
+/run moving = MonkeySpeed.m_fSpeed > 0
 /run function ap() local base, posBuff, negBuff = UnitAttackPower("player");return base + posBuff + negBuff end
 
 /run if tarh < 0.21 then if ap() > 2000 then CastSpellByName("Mortal Strike") else CastSpellByName("Execute") end end
@@ -132,7 +132,7 @@ or
 ### Swinged
 ```
 /run m = UnitMana("player");
-/run local swinged = st_timer < 0.2
+/run swinged = st_timer and ((st_timer + 1) > UnitAttackSpeed("player"));
 /run if swinged and m > 44 then CastSpellByName("Mortal Strike") end
 ```
 
@@ -140,19 +140,19 @@ or
 
 Depond on [MonkeySpeed](https://github.com/MarcelineVQ/MonkeySpeed)   
 ```
-/run local m = UnitMana("player");
-/run local melee = CheckInteractDistance("target", 3) and not UnitIsDead("target");
-/run local swinged = st_timer < 0.2
-/run local moving = MonkeySpeed.m_fSpeed > 0
+/run m = UnitMana("player");
+/run melee = CheckInteractDistance("target", 3) and not UnitIsDead("target");
+/run swinged = st_timer and ((st_timer + 1) > UnitAttackSpeed("player"));
+/run moving = MonkeySpeed.m_fSpeed > 0
 /run if melee and m > 44 and swinged and moving then CastSpellByName("Decisive Strike") end
 ```
 
 ### Hunter melee
 ```
-/run local m = UnitMana("player");
-/run local melee = CheckInteractDistance("target", 3) and not UnitIsDead("target");
-/run local swinged = st_timer < 0.2
-/run local moving = MonkeySpeed.m_fSpeed > 0
+/run m = UnitMana("player");
+/run melee = CheckInteractDistance("target", 3) and not UnitIsDead("target");
+/run swinged = st_timer and ((st_timer + 1) > UnitAttackSpeed("player"));
+/run moving = MonkeySpeed.m_fSpeed > 0
 /run function ap() local base, posBuff, negBuff = UnitAttackPower("player");return base + posBuff + negBuff end
 
 /run if melee and ap() > 1800 and swinged and not moving then CastSpellByName("Raptor Strike") end
