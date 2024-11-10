@@ -42,6 +42,8 @@ This example depend on:
 /run function HuntersMark() local i,x=1,0 while ud("target",i) do if ud("target",i)=="Interface\\Icons\\Ability_Hunter_SniperShot" then x=1 end i=i+1 end if x==0 then c("Hunter's Mark")end end
 /run function Serpent() local i,x=1,0 while ud("target",i) do if ud("target",i)=="Interface\\Icons\\Ability_Hunter_Quickshot" then x=1 end i=i+1 end if x==0 then c("Serpent Sting")end end
 /run function WingClip() local i,x=1,0 while ud("target",i) do if ud("target",i)=="Interface\\Icons\\Ability_Rogue_Trip" then x=1 end i=i+1 end if x==0 then c("Wing Clip")end end
+/run function hasExplosive() local i,x=1,0 while ud("target",i) do if ud("target",i)=="Interface\\Icons\\Spell_Fire_SelfDestruct" then x=1 end i=i+1 end if x==1 then return true;end end
+
 /run function HasQuickShot() local i,x=1,0 while u("player",i) do if u("player",i)=="Interface\\Icons\\Ability_Warrior_InnerRage" then x=1 end i=i+1 end if x==1 then return true end end
 /run function ap() local base, posBuff, negBuff = UnitAttackPower("player");return base + posBuff + negBuff end
 /run function casting(s) local spName, _, _, _, time1, time2, _ = ShaguTweaks.UnitCastingInfo("target");local ss = s or "";if spName and time2-time1>2500 and string.find(spName,ss) then return true; end end
@@ -71,7 +73,7 @@ This example depend on:
 /run if hasBestial() and cd("Bestial Wrath") and petCombat and tarh>0.8 then c("Bestial Wrath") end
 
 /run if melee and cd("Wing Clip") then WingClip() end
-/run if melee and canTrap() and cd("Explosive Trap") then c("Explosive Trap") end
+/run if melee and canTrap() and cd("Explosive Trap") and not hasExplosive() then c("Explosive Trap") end
 /run if melee and hasCarve() and cd("Carve") then c("Carve") end
 /run if melee and cd("Mongoose Bite") then c("Mongoose Bite") end
 /run if melee and swinged and cd("Raptor Strike") then c("Raptor Strike") end
