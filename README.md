@@ -28,7 +28,7 @@ This example depend on:
 /run function cd(s) return SpellReady(s) or false;end;
 /run icd = GetItemCooldown;
 /run moving = SuperMate.IsMoving;
-/run melee = CheckInteractDistance("target", 3) and not UnitIsDead("target") or true;
+/run melee = CheckInteractDistance("target", 3) and not UnitIsDead("target");
 /run tarType = UnitCreatureType("target")
 /run function FreeShot(secs) local a, b = Quiver.GetSecondsRemainingShoot(); local m, n = Quiver.GetSecondsRemainingReload(); return (a and b < -0.25) or (m and n > secs) end
 /run function hang() local a, b = Quiver.GetSecondsRemainingShoot(); return a and b < -0.25 end
@@ -42,6 +42,7 @@ This example depend on:
 /run function ap() local base, posBuff, negBuff = UnitAttackPower("player");return base + posBuff + negBuff end
 /run casting = SuperMate.IsCastingIncludeName;
 /run swinged = st_timer < 0.2;
+/run imm = st_timer and ((st_timer + 1) > UnitAttackSpeed("player"));
 /run function hasCarve() local _,texture,_,_,rank,_,_,_=GetTalentInfo(3,9);if texture then return true; end end
 /run function canTrap() local _,texture,_,_,rank,_,_,_=GetTalentInfo(3,19);if texture then return true; end end
 /run function hasIntimidation() local _,texture,_,_,rank,_,_,_=GetTalentInfo(1,13);if texture then return true; end end
@@ -54,18 +55,18 @@ This example depend on:
 /run PetAttack()
 /run if hang() then c("Attack") end
 /run if melee then AutoAttack() else AutoShot() end
+/run if CheckInteractDistance("target", 3)~=1 and not melee then HuntersMark() end
 
 /run --Cast Intimidation if target casting name include Healing string and duration > 2.5s
 /run if hasIntimidation() and cd("Intimidation") and casting("Healing") and petCombat then c("Intimidation") end
 /run if not melee and casting("Healing") and FreeShot(0.5) and cd("Multi-Shot") and not cd("Intimidation") then c("Multi-Shot") end
 
-/run if not melee then HuntersMark() end
 /run --if not melee and tarType ~= "Elemental" and tarType ~= "Mechanical" then Serpent() end
 
 /run --When solo, cast Bestial Wrath before target health > 80%
 /run if hasBestial() and cd("Bestial Wrath") and petCombat and tarh>0.8 then c("Bestial Wrath") end
 
-/run if melee and cd("Mongoose Bite") then c("Mongoose Bite") end
+/run if melee and imm and cd("Mongoose Bite") then c("Mongoose Bite") end
 /run if melee and hasCarve() and cd("Carve") then c("Carve") end
 /run local canExplosive = inRaid or not hasExplosive(); if melee and canTrap() and cd("Explosive Trap") and canExplosive then c("Explosive Trap") end
 /run if melee and cd("Wing Clip") then WingClip() end
