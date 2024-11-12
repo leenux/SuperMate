@@ -86,14 +86,14 @@ This example depend on:
 
 ```
 
-### SM_IsEquipped
+### SuperMate.IsEquipped(itemName)
 
 Get item equipped state.
 
-#### Sample SM_IsEquipped
+#### Sample SuperMate.IsEquipped
 
 ```
-/run if SM_IsEquipped("Insignia of the Horde") then UIErrorsFrame:AddMessage("Insignia of the Horde equipped");end
+/run if SuperMate.IsEquipped("Insignia of the Horde") then UIErrorsFrame:AddMessage("Insignia of the Horde equipped");end
 ```
 ### Detect player movement
 #### Sample moving

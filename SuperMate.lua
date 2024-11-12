@@ -109,7 +109,7 @@ function SM.IdAndNameFromLink(link)
 	return nil
 end
 
-function SM_IsEquipped(item)
+SuperMate.IsEquipped = function(item)
 	local itemId
 	local itemName
 	if (string.find(item, '^%d')) then
