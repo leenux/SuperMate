@@ -16,6 +16,9 @@ This example depend on:
 [SP_SwingTimer](https://github.com/MarcelineVQ/SP_SwingTimer)
 
 ```
+/run if UnitIsDead("target") then ClearTarget() end
+/run if GetUnitName("target")==nil then TargetNearestEnemy() end
+
 /run c = CastSpellByName
 /run u = UnitBuff
 /run ud = UnitDebuff
@@ -50,12 +53,11 @@ This example depend on:
 /run function hasSteady() local _,texture,_,_,rank,_,_,_=GetTalentInfo(2,7);if texture then return true; end end
 /run inRaid = GetNumRaidMembers() > 0;
 
-/run if UnitIsDead("target") then ClearTarget() end
-/run if GetUnitName("target")==nil then TargetNearestEnemy() end
 /run PetAttack()
-/run if hang() then c("Attack") end
+/run if not melee and hang() then c("Attack") end
 /run if melee then AutoAttack() else AutoShot() end
-/run if CheckInteractDistance("target", 3)~=1 and not melee then HuntersMark() end
+/run --if CheckInteractDistance("target", 3)~=1 and not melee then HuntersMark() end
+/run if not melee then HuntersMark() end
 
 /run --Cast Intimidation if target casting name include Healing string and duration > 2.5s
 /run if hasIntimidation() and cd("Intimidation") and casting("Healing") and petCombat then c("Intimidation") end
