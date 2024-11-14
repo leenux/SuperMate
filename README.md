@@ -46,13 +46,13 @@ This example depend on:
 /run function ap() local base, posBuff, negBuff = UnitAttackPower("player");return base + posBuff + negBuff end
 /run casting = SuperMate.IsCastingIncludeName;
 /run swinged = st_timer < 0.2;
-/run t = GetTalentInfo;
 /run imm = st_timer and ((st_timer + 1) > UnitAttackSpeed("player"));
-/run function hasCarve() local _,has,_,_,r,_,_,_=t(3,9);if has then return true; end end
-/run function canTrap() local _,has,_,_,r,_,_,_=t(3,19);if has then return true; end end
-/run function hasIntimidation() local _,has,_,_,r,_,_,_=t(1,13);if has then return true; end end
-/run function hasBestial() local _,has,_,_,r,_,_,_=t(1,17);if has then return true; end end
-/run function hasSteady() local _,has,_,_,r,_,_,_=t(2,7);if has then return true; end end
+/run t = GetTalentInfo;
+/run function hasCarve() local _, _, _, _, has, _, _, _, _, _, _=t(3,9);if has then return true; end end
+/run function canTrap() local _, _, _, _, has, _, _, _, _, _, _=t(3,19);if has then return true; end end
+/run function hasIntimidation() local _, _, _, _, has, _, _, _, _, _, _=t(1,13);if has then return true; end end
+/run function hasBestial() local _, _, _, _, has, _, _, _, _, _, _=t(1,17);if has then return true; end end
+/run function hasSteady() local _, _, _, _, has, _, _, _, _, _, _=t(2,7);if has then return true; end end
 /run inRaid = GetNumRaidMembers() > 0;
 
 /run PetAttack()
