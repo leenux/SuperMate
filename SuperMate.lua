@@ -134,3 +134,30 @@ SuperMate.IsEquipped = function(item)
 	end
 	return false
 end
+
+SuperMate.GetSpellCooldownByName = function(spellName)
+    local checkFor = function(bookType)
+        local i = 1
+        while true do
+            local name, spellRank = GetSpellName(i, bookType);
+            
+            if not name then
+                break;
+            end
+            
+            if name == spellName then
+                local _, duration = GetSpellCooldown(i, bookType);
+                return duration;
+            end
+            
+            i = i + 1
+        end
+        return nil;
+    end
+    
+    
+    local cd = checkFor(BOOKTYPE_PET);
+    if not cd then cd = checkFor(BOOKTYPE_SPELL); end
+    
+    return cd;
+end

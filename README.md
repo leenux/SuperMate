@@ -24,11 +24,12 @@ This example depend on:
 /run ud = UnitDebuff
 /run tarh = UnitHealth("target")/UnitHealthMax("target");
 /run m = UnitMana("player");
+/run pm = UnitMana("pet");
 /run h = UnitHealth("target");
 /run p = UnitHealth("player")/UnitHealthMax("player");
 /run combat = UnitAffectingCombat("player");
 /run petCombat = UnitAffectingCombat("pet");
-/run function cd(s) return SpellReady(s) or false;end;
+/run cd = SuperMate.GetSpellCooldownByName;
 /run icd = GetItemCooldown;
 /run moving = SuperMate.IsMoving;
 /run melee = CheckInteractDistance("target", 3) and not UnitIsDead("target");
@@ -45,18 +46,18 @@ This example depend on:
 /run function ap() local base, posBuff, negBuff = UnitAttackPower("player");return base + posBuff + negBuff end
 /run casting = SuperMate.IsCastingIncludeName;
 /run swinged = st_timer < 0.2;
+/run t = GetTalentInfo;
 /run imm = st_timer and ((st_timer + 1) > UnitAttackSpeed("player"));
-/run function hasCarve() local _,texture,_,_,rank,_,_,_=GetTalentInfo(3,9);if texture then return true; end end
-/run function canTrap() local _,texture,_,_,rank,_,_,_=GetTalentInfo(3,19);if texture then return true; end end
-/run function hasIntimidation() local _,texture,_,_,rank,_,_,_=GetTalentInfo(1,13);if texture then return true; end end
-/run function hasBestial() local _,texture,_,_,rank,_,_,_=GetTalentInfo(1,17);if texture then return true; end end
-/run function hasSteady() local _,texture,_,_,rank,_,_,_=GetTalentInfo(2,7);if texture then return true; end end
+/run function hasCarve() local _,has,_,_,r,_,_,_=t(3,9);if has then return true; end end
+/run function canTrap() local _,has,_,_,r,_,_,_=t(3,19);if has then return true; end end
+/run function hasIntimidation() local _,has,_,_,r,_,_,_=t(1,13);if has then return true; end end
+/run function hasBestial() local _,has,_,_,r,_,_,_=t(1,17);if has then return true; end end
+/run function hasSteady() local _,has,_,_,r,_,_,_=t(2,7);if has then return true; end end
 /run inRaid = GetNumRaidMembers() > 0;
 
 /run PetAttack()
 /run if not melee and hang() then c("Attack") end
 /run if melee then AutoAttack() else AutoShot() end
-/run --if CheckInteractDistance("target", 3)~=1 and not melee then HuntersMark() end
 /run if not melee then HuntersMark() end
 
 /run --Cast Intimidation if target casting name include Healing string and duration > 2.5s
@@ -148,4 +149,13 @@ or
 ### Player buff and debuff
 ```
 /script function m(s) DEFAULT_CHAT_FRAME:AddMessage(s); end for i=1,16 do s=UnitBuff("player", i); if(s) then m("B "..i..": "..s); end s=UnitDebuff("player", i); if(s) then m("D "..i..": "..s); end end
+```
+
+### Cooldown example
+```
+/run pm = UnitMana("pet");
+/run cd = SuperMate.GetSpellCooldownByName;
+/run print("----g cd:"..tostring(cd("Growl")))
+/run print("----m cd:"..tostring(cd("Multi-Shot")))
+/run print("----mana:"..pm) 
 ```
