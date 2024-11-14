@@ -45,6 +45,7 @@ This example depend on:
 /run function HasQuickShot() local i,x=1,0 while u("player",i) do if u("player",i)=="Interface\\Icons\\Ability_Warrior_InnerRage" then x=1 end i=i+1 end if x==1 then return true end end
 /run function ap() local base, posBuff, negBuff = UnitAttackPower("player");return base + posBuff + negBuff end
 /run casting = SuperMate.IsCastingIncludeName;
+/run ic = SuperMate.InCasting;
 /run swinged = st_timer < 0.2;
 /run imm = st_timer and ((st_timer + 1) > UnitAttackSpeed("player"));
 /run t = GetTalentInfo;

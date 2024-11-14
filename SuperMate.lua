@@ -7,6 +7,7 @@ SM.spellID = 0
 SM.dura = 0
 SM.defaultDura = 2500
 SM.targetID = 0
+SM.selfCasting = 0
 
 SuperMate:SetScript("OnEvent", function()
 	if not SetAutoloot then
@@ -14,20 +15,28 @@ SuperMate:SetScript("OnEvent", function()
 		return
 	end
 	if event == "UNIT_CASTEVENT" then
-		b,i=UnitExists("target")
-		if i==arg2 then
-			if arg3=="START" then
+		_,target_guid = UnitExists("target")
+		_,player_guid = UnitExists("player")
+
+		if target_guid == arg2 then
+			if arg3=="START" or arg3 == "CHANNEL" then
 				--DEFAULT_CHAT_FRAME:AddMessage("cast state:"..tostring(arg3).." -spellID:"..tostring(arg4).." -dura:"..tostring(arg5))
 				SM.spellID = arg4
 				SM.dura = arg5
 				SM.targetID = arg2
-			else
+			elseif arg3=="CAST" or arg3 == "FAIL" then
 				SM.spellID = 0
 				SM.dura = 0
 				SM.targetID = 0
 			end
 		end
-
+		if player_guid == arg1 then 
+			if arg3=="START" or arg3 == "CHANNEL" then
+				SM.selfCasting = 1
+			elseif  arg3=="CAST" or arg3 == "FAIL" then
+				SM.selfCasting = 0
+			end
+		end
 	end
 end)
 
@@ -56,6 +65,10 @@ SuperMate.ifCastingTime = function(Dura)
 		return true
 	end
 	return false
+end
+
+SuperMate.InCasting = function()
+	return SM.selfCasting
 end
 
 SuperMate.IsMoving = false;
