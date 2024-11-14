@@ -4,7 +4,7 @@ Depend on:
 
 [SuperWoW](https://github.com/balakethelock/SuperWoW)  
 
-### Example Beast Hunter solo one key macro
+### Example triple talents one key macro
 This example depend on:
 
 [SuperMate](https://github.com/leenux/SuperMate)
