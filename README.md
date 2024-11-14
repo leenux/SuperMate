@@ -29,7 +29,7 @@ This example depend on:
 /run p = UnitHealth("player")/UnitHealthMax("player");
 /run combat = UnitAffectingCombat("player");
 /run petCombat = UnitAffectingCombat("pet");
-/run cd = SuperMate.GetSpellCooldownByName;
+/run function cd(s) return SuperMate.GetSpellCooldownByName(s) == 0; end
 /run icd = GetItemCooldown;
 /run moving = SuperMate.IsMoving;
 /run melee = CheckInteractDistance("target", 3) and not UnitIsDead("target");
