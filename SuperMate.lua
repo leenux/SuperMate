@@ -174,3 +174,40 @@ SuperMate.GetSpellCooldownByName = function(spellName)
     
     return cd;
 end
+
+SuperMate.GetSpellTextureByName = function(spellName)
+    local checkFor = function(bookType)
+        local i = 1
+        while true do
+            local name, spellRank = GetSpellName(i, bookType);
+            
+            if not name then
+                break;
+            end
+            
+            if name == spellName then
+                local icon = GetSpellTexture(i, bookType);
+                return icon;
+            end
+            
+            i = i + 1
+        end
+        return nil;
+    end
+    
+    
+    local texture = checkFor(BOOKTYPE_PET);
+    if not texture then texture = checkFor(BOOKTYPE_SPELL); end
+    
+    return texture;
+end
+
+SuperMate.IsActived = function(spellName)
+	if SuperMate.GetSpellTextureByName(spellName) ~= nil then
+		for i=1,120 do 
+			if IsCurrentAction(i) and GetActionTexture(i) == "Interface\\Icons\\Ability_MeleeDamage" then 
+				return true 
+			end 
+		end 
+	end
+end

@@ -40,41 +40,39 @@ Put Attack, Auto Shot, Steady Shot, Multi-Shot, Aimed Shot to any action bar
 /run function hang() local a, b = Quiver.GetSecondsRemainingShoot(); return a and b < -0.25 end
 /run function AutoAttack() for i=1,120 do if IsCurrentAction(i) then return end end c("Attack") end
 /run function AutoShot() for i=1,120 do if IsAutoRepeatAction(i) then return end end c("Auto Shot") end
-/run function HuntersMark() local i,x=1,0 while ud("target",i) do if ud("target",i)=="Interface\\Icons\\Ability_Hunter_SniperShot" then x=1 end i=i+1 end if x==0 then c("Hunter's Mark")end end
-/run function Serpent() local i,x=1,0 while ud("target",i) do if ud("target",i)=="Interface\\Icons\\Ability_Hunter_Quickshot" then x=1 end i=i+1 end if x==0 then c("Serpent Sting")end end
-/run function WingClip() local i,x=1,0 while ud("target",i) do if ud("target",i)=="Interface\\Icons\\Ability_Rogue_Trip" then x=1 end i=i+1 end if x==0 then c("Wing Clip")end end
-/run function hasExplosive() local i,x=1,0 while ud("target",i) do if ud("target",i)=="Interface\\Icons\\Spell_Fire_SelfDestruct" then x=1 end i=i+1 end if x==1 then return true;end end
-/run function HasQuickShot() local i,x=1,0 while u("player",i) do if u("player",i)=="Interface\\Icons\\Ability_Warrior_InnerRage" then x=1 end i=i+1 end if x==1 then return true end end
 /run function ap() local base, posBuff, negBuff = UnitAttackPower("player");return base + posBuff + negBuff end
 /run casting = SuperMate.IsCastingIncludeName;
 /run swinged = st_timer < 0.2;
 /run imm = st_timer and ((st_timer + 1) > UnitAttackSpeed("player"));
 /run t = GetTalentInfo;
-/run function hasCarve() local _, _, _, _, has, _, _, _, _, _, _=t(3,9);if has then return true; end end
-/run function canTrap() local _, _, _, _, has, _, _, _, _, _, _=t(3,19);if has then return true; end end
-/run function hasIntimidation() local _, _, _, _, has, _, _, _, _, _, _=t(1,13);if has then return true; end end
-/run function hasBestial() local _, _, _, _, has, _, _, _, _, _, _=t(1,17);if has then return true; end end
-/run function hasSteady() local _, _, _, _, has, _, _, _, _, _, _=t(2,7);if has then return true; end end
+/run function hasCarve() local _, _, _, _, has, _, _, _, _, _, _=t(3,9);if has == 1 then return true; end end
+/run function canTrap() local _, _, _, _, has, _, _, _, _, _, _=t(3,19);if has == 1 then return true; end end
+/run function hasIntimidation() local _, _, _, _, has, _, _, _, _, _, _=t(1,13);if has == 1 then return true; end end
+/run function hasBestial() local _, _, _, _, has, _, _, _, _, _, _=t(1,17);if has == 1 then return true; end end
+/run function hasSteady() local _, _, _, _, has, _, _, _, _, _, _=t(2,7);if has == 1 then return true; end end
 /run inRaid = GetNumRaidMembers() > 0;
 
 /run PetAttack()
 /run --if not melee and hang() then c("Attack") end
 /run if melee then AutoAttack() else AutoShot() end
-/run if not melee then HuntersMark() end
+/run --if not melee then HuntersMark() end
+/run if not melee and not buffed("Hunter's Mark", "target") then c("Hunter's Mark") end
+
 
 /run --Cast Intimidation if target casting name include Healing string and duration > 2.5s
 /run if hasIntimidation() and cd("Intimidation") and casting("Healing") and petCombat then c("Intimidation") end
 /run if not melee and casting("Healing") and FreeShot(0.5) and cd("Multi-Shot") and not cd("Intimidation") then c("Multi-Shot") end
 
-/run --if not melee and tarType ~= "Elemental" and tarType ~= "Mechanical" then Serpent() end
+/run if not melee and not buffed("Serpent Sting", target) then c("Serpent Sting") end
 
 /run --When solo, cast Bestial Wrath before target health > 80%
 /run if hasBestial() and cd("Bestial Wrath") and petCombat and tarh>0.8 then c("Bestial Wrath") end
 
 /run if melee and imm and cd("Mongoose Bite") then c("Mongoose Bite") end
 /run if melee and hasCarve() and cd("Carve") then c("Carve") end
-/run local canExplosive = inRaid or not hasExplosive(); if melee and canTrap() and cd("Explosive Trap") and canExplosive then c("Explosive Trap") end
-/run if melee and cd("Wing Clip") then WingClip() end
+/run local canExplosive = inRaid or not buffed("Explosive Trap", "target"); if melee and canTrap() and cd("Explosive Trap") and canExplosive then c("Explosive Trap") end
+/run if melee and not buffed("Wing Clip", "target") and cd("Wing Clip") then c("Wing Clip") end
+
 /run if melee and swinged and cd("Raptor Strike") then c("Raptor Strike") end
 
 /run --Detect auto shot hang and re-boot shot, when remaining time > 0.5s we can cast multi-shot
@@ -83,9 +81,9 @@ Put Attack, Auto Shot, Steady Shot, Multi-Shot, Aimed Shot to any action bar
 /run if not melee and hasSteady() and FreeShot(1.2) then c("Steady Shot") end
 
 /run --Detect auto shot hang and re-boot shot, when remaining time > 1.5s and has Swift Aspects we can cast Aimed Shot
-/run --if not melee and FreeShot(1.5) and HasQuickShot() and cd("Aimed Shot") then c("Aimed Shot") end
+/run --if not melee and FreeShot(1.5) and not buffed("Quick Shots") and cd("Aimed Shot") then c("Aimed Shot") end
 /run --Detect auto shot hang and re-boot shot, if has Swift Aspects we can cast Aimed Shot
-/run --if not melee and HasQuickShot() and cd("Aimed Shot") then c("Aimed Shot") end
+/run --if not melee and not buffed("Quick Shots") and cd("Aimed Shot") then c("Aimed Shot") end
 
 ```
 
@@ -167,9 +165,8 @@ or
 Attention: This macro need put Raptor Strike skill to action bar
 
 ```
-/run function RaptorIsAction() for i=1,120 do if IsCurrentAction(i) and GetActionTexture(i) == "Interface\\Icons\\Ability_MeleeDamage" then return true end end end
-/run raptor = RaptorIsAction() or false;
-/run print("-----raptor:"..tostring(raptor))
+/run actived = SuperMate.IsActived
+/run print("Raptor Strike active state:"..(actived("Raptor Strike") or false))
 ```
 
 ### Detect player casting state
