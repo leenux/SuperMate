@@ -45,7 +45,6 @@ This example depend on:
 /run function HasQuickShot() local i,x=1,0 while u("player",i) do if u("player",i)=="Interface\\Icons\\Ability_Warrior_InnerRage" then x=1 end i=i+1 end if x==1 then return true end end
 /run function ap() local base, posBuff, negBuff = UnitAttackPower("player");return base + posBuff + negBuff end
 /run casting = SuperMate.IsCastingIncludeName;
-/run ic = SuperMate.InCasting;
 /run swinged = st_timer < 0.2;
 /run imm = st_timer and ((st_timer + 1) > UnitAttackSpeed("player"));
 /run t = GetTalentInfo;
@@ -159,4 +158,24 @@ or
 /run print("----g cd:"..tostring(cd("Growl")))
 /run print("----m cd:"..tostring(cd("Multi-Shot")))
 /run print("----mana:"..pm) 
+```
+
+### Detect action active state
+
+Attention: This macro need put Raptor Strike skill to action bar
+
+```
+/run function RaptorIsAction() for i=1,120 do if IsCurrentAction(i) and GetActionTexture(i) == "Interface\\Icons\\Ability_MeleeDamage" then return true end end end
+/run raptor = RaptorIsAction() or false;
+/run print("-----raptor:"..tostring(raptor))
+```
+
+### Detect player casting state
+
+Include spell and not cast immediately range shot(for example Steady Shot,Multi-Shot,Aimed Shot etc.)
+
+```
+/run --When casting Steady Shot
+/run ic = SuperMate.InCasting;
+/run if ic() then print("Now player casting...") end
 ```
