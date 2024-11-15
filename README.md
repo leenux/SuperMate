@@ -15,6 +15,8 @@ This example depend on:
 
 [SP_SwingTimer](https://github.com/MarcelineVQ/SP_SwingTimer)
 
+Put Attack, Auto Shot, Steady Shot, Multi-Shot, Aimed Shot to any action bar
+
 ```
 /run if UnitIsDead("target") then ClearTarget() end
 /run if GetUnitName("target")==nil then TargetNearestEnemy() end
@@ -56,7 +58,7 @@ This example depend on:
 /run inRaid = GetNumRaidMembers() > 0;
 
 /run PetAttack()
-/run if not melee and hang() then c("Attack") end
+/run --if not melee and hang() then c("Attack") end
 /run if melee then AutoAttack() else AutoShot() end
 /run if not melee then HuntersMark() end
 
