@@ -203,9 +203,10 @@ SuperMate.GetSpellTextureByName = function(spellName)
 end
 
 SuperMate.IsActived = function(spellName)
-	if SuperMate.GetSpellTextureByName(spellName) ~= nil then
+	local texture = SuperMate.GetSpellTextureByName(spellName)
+	if texture ~= nil then
 		for i=1,120 do 
-			if IsCurrentAction(i) and GetActionTexture(i) == "Interface\\Icons\\Ability_MeleeDamage" then 
+			if IsCurrentAction(i) and GetActionTexture(i) == texture then 
 				return true 
 			end 
 		end 
