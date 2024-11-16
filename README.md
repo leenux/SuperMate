@@ -53,9 +53,8 @@ Put Attack, Auto Shot, Steady Shot, Multi-Shot, Aimed Shot to any action bar
 /run inRaid = GetNumRaidMembers() > 0;
 
 /run PetAttack()
-/run --if not melee and hang() then c("Attack") end
+/run if not melee and hang() then c("Attack") end
 /run if melee then AutoAttack() else AutoShot() end
-/run --if not melee then HuntersMark() end
 /run if not melee and not buffed("Hunter's Mark", "target") then c("Hunter's Mark") end
 
 
@@ -63,17 +62,16 @@ Put Attack, Auto Shot, Steady Shot, Multi-Shot, Aimed Shot to any action bar
 /run if hasIntimidation() and cd("Intimidation") and casting("Healing") and petCombat then c("Intimidation") end
 /run if not melee and casting("Healing") and FreeShot(0.5) and cd("Multi-Shot") and not cd("Intimidation") then c("Multi-Shot") end
 
-/run if not melee and not buffed("Serpent Sting", target) then c("Serpent Sting") end
+/run --if not melee and tarType ~= "Elemental" and tarType ~= "Mechanical" and not buffed("Serpent Sting", target) then c("Serpent Sting") end
 
 /run --When solo, cast Bestial Wrath before target health > 80%
 /run if hasBestial() and cd("Bestial Wrath") and petCombat and tarh>0.8 then c("Bestial Wrath") end
 
 /run if melee and imm and cd("Mongoose Bite") then c("Mongoose Bite") end
-/run if melee and hasCarve() and cd("Carve") then c("Carve") end
-/run local canExplosive = inRaid or not buffed("Explosive Trap", "target"); if melee and canTrap() and cd("Explosive Trap") and canExplosive then c("Explosive Trap") end
-/run if melee and not buffed("Wing Clip", "target") and cd("Wing Clip") then c("Wing Clip") end
-
 /run if melee and swinged and cd("Raptor Strike") then c("Raptor Strike") end
+/run local canExplosive = inRaid or not buffed("Explosive Trap", "target"); if melee and canTrap() and cd("Explosive Trap") and canExplosive then c("Explosive Trap") end
+/run if melee and hasCarve() and cd("Carve") then c("Carve") end
+/run if melee and not buffed("Wing Clip", "target") and cd("Wing Clip") then c("Wing Clip") end
 
 /run --Detect auto shot hang and re-boot shot, when remaining time > 0.5s we can cast multi-shot
 /run --if not melee and FreeShot(0.5) and cd("Multi-Shot") then c("Multi-Shot") end
