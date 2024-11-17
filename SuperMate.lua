@@ -1,6 +1,8 @@
 SuperMate = CreateFrame("Frame", nil, nil)  
 
 SuperMate:RegisterEvent("UNIT_CASTEVENT")
+SuperMate:RegisterEvent("CHAT_MSG_COMBAT_SELF_MISSES")
+
 
 local SM = {};
 SM.spellID = 0
@@ -9,36 +11,50 @@ SM.defaultDura = 2500
 SM.targetID = 0
 SM.selfCasting = 0
 
+function d(s)
+	DEFAULT_CHAT_FRAME:AddMessage(s)
+end
+
 SuperMate:SetScript("OnEvent", function()
 	if not SetAutoloot then
 		DEFAULT_CHAT_FRAME:AddMessage("Need SuperWoW.")
 		return
 	end
 	if event == "UNIT_CASTEVENT" then
-		_,target_guid = UnitExists("target")
-		_,player_guid = UnitExists("player")
-
-		if target_guid == arg2 then
-			if arg3=="START" or arg3 == "CHANNEL" then
-				--DEFAULT_CHAT_FRAME:AddMessage("cast state:"..tostring(arg3).." -spellID:"..tostring(arg4).." -dura:"..tostring(arg5))
-				SM.spellID = arg4
-				SM.dura = arg5
-				SM.targetID = arg2
-			elseif arg3=="CAST" or arg3 == "FAIL" then
-				SM.spellID = 0
-				SM.dura = 0
-				SM.targetID = 0
-			end
-		end
-		if player_guid == arg1 then 
-			if arg3=="START" or arg3 == "CHANNEL" then
-				SM.selfCasting = 1
-			elseif  arg3=="CAST" or arg3 == "FAIL" then
-				SM.selfCasting = 0
-			end
-		end
+		SM.UnitCastEvent(arg1, arg2, arg3, arg4, arg5)
+	elseif event == "CHAT_MSG_COMBAT_SELF_MISSES" then
+		
 	end
 end)
+
+function SM.UnitCastEvent(arg1, arg2, arg3, arg4, arg5)
+	local _,target_guid = UnitExists("target")
+	local _,player_guid = UnitExists("player")
+
+	if target_guid == arg2 then
+		if arg3=="START" or arg3 == "CHANNEL" then
+			--DEFAULT_CHAT_FRAME:AddMessage("cast state:"..tostring(arg3).." -spellID:"..tostring(arg4).." -dura:"..tostring(arg5))
+			SM.spellID = arg4
+			SM.dura = arg5
+			SM.targetID = arg2
+		elseif arg3=="CAST" or arg3 == "FAIL" then
+			SM.spellID = 0
+			SM.dura = 0
+			SM.targetID = 0
+		end
+	end
+	if player_guid == arg1 then 
+		if arg3=="START" or arg3 == "CHANNEL" then
+			SM.selfCasting = 1
+		elseif  arg3=="CAST" or arg3 == "FAIL" then
+			SM.selfCasting = 0
+		end
+	end
+end
+
+function SM.CheckDodgeParryBlockResist("target", event, arg1)
+	d("CHAT_MSG_COMBAT_SELF_MISSES")
+end
 
 SuperMate.IsCastingIncludeName = function(SpellName)
 	b,i=UnitExists("target")

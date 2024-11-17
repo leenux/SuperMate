@@ -51,6 +51,8 @@ Put Attack, Auto Shot, Steady Shot, Multi-Shot, Aimed Shot to any action bar
 /run function hasBestial() local _, _, _, _, has, _, _, _, _, _, _=t(1,17);if has == 1 then return true; end end
 /run function hasSteady() local _, _, _, _, has, _, _, _, _, _, _=t(2,7);if has == 1 then return true; end end
 /run inRaid = GetNumRaidMembers() > 0;
+/run isTargetOfTarget = UnitIsUnit("player", "targettarget")
+/run isBoss = UnitClassification("target") == "worldboss"
 
 /run PetAttack()
 /run if not melee and hang() then c("Attack") end
@@ -67,6 +69,9 @@ Put Attack, Auto Shot, Steady Shot, Multi-Shot, Aimed Shot to any action bar
 /run --When solo, cast Bestial Wrath before target health > 80%
 /run if hasBestial() and cd("Bestial Wrath") and petCombat and tarh>0.8 then c("Bestial Wrath") end
 
+/run if buffed("Feign Death") then unbuff("Feign Death") end
+/run if isTargetOfTarget and isBoss and cd("Feign Death") then c("Feign Death") elseif not cd("Feign Death") and icd("Limited Invulnerability Potion") then RunLine("/use Limited Invulnerability Potion") else c("Disengage") end
+/run if melee and isTargetOfTarget and not isBoss then c("Disengage") end
 /run if melee and imm and cd("Mongoose Bite") then c("Mongoose Bite") end
 /run if melee and swinged and cd("Raptor Strike") then c("Raptor Strike") end
 /run local canExplosive = inRaid or not buffed("Explosive Trap", "target"); if melee and canTrap() and cd("Explosive Trap") and canExplosive then c("Explosive Trap") end
