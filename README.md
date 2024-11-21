@@ -178,7 +178,7 @@ Include spell and not cast immediately range shot(for example Steady Shot,Multi-
 
 ```
 /run --When casting Steady Shot
-/run ic = SuperMate.InCasting;
+/run ic = SuperMate.PlayerInCasting;
 /run if ic() then print("Now player casting...") end
 ```
 
