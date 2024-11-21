@@ -1,8 +1,6 @@
 SuperMate = CreateFrame("Frame", nil, nil)  
 
 SuperMate:RegisterEvent("UNIT_CASTEVENT")
-SuperMate:RegisterEvent("CHAT_MSG_COMBAT_SELF_MISSES")
-
 
 local SM = {};
 SM.spellID = 0
@@ -11,7 +9,7 @@ SM.defaultDura = 2500
 SM.targetID = 0
 SM.selfCasting = 0
 
-function d(s)
+local function d(s)
 	DEFAULT_CHAT_FRAME:AddMessage(s)
 end
 
@@ -22,8 +20,6 @@ SuperMate:SetScript("OnEvent", function()
 	end
 	if event == "UNIT_CASTEVENT" then
 		SM.UnitCastEvent(arg1, arg2, arg3, arg4, arg5)
-	elseif event == "CHAT_MSG_COMBAT_SELF_MISSES" then
-		
 	end
 end)
 
@@ -50,10 +46,6 @@ function SM.UnitCastEvent(arg1, arg2, arg3, arg4, arg5)
 			SM.selfCasting = 0
 		end
 	end
-end
-
-function SM.CheckDodgeParryBlockResist("target", event, arg1)
-	d("CHAT_MSG_COMBAT_SELF_MISSES")
 end
 
 SuperMate.IsCastingIncludeName = function(SpellName)
@@ -83,7 +75,7 @@ SuperMate.ifCastingTime = function(Dura)
 	return false
 end
 
-SuperMate.InCasting = function()
+SuperMate.PlayerInCasting = function()
 	return SM.selfCasting
 end
 
@@ -125,7 +117,6 @@ local function MonkeySpeed_Round(x)
 	end
 	return floor(x);
 end
-
 
 function SM.IdAndNameFromLink(link)
 	local name
@@ -227,4 +218,41 @@ SuperMate.IsActived = function(spellName)
 			end 
 		end 
 	end
+end
+
+SuperMate.InGCD = function()
+	local gcdActionSpell = "";
+
+	local _, class = UnitClass("player");
+
+	if class == "ROGUE" then
+		gcdActionSpell = "Sinister Strike"
+	elseif class == "DRUID" then
+		gcdActionSpell = "Mark of the Wild"
+	elseif class == "HUNTER" then
+		gcdActionSpell = "Serpent Sting"
+	elseif class == "PRIEST" then
+		gcdActionSpell = "Power Word: Fortitude"
+	elseif class == "WARRIOR" then
+		gcdActionSpell = "Battle Shout"
+	elseif class == "MAGE" then
+		gcdActionSpell = "Frost Armor"
+	elseif class == "WARLOCK" then
+		gcdActionSpell = "Demon Skin"
+	elseif class == "SHAMAN" then
+		gcdActionSpell = "Rockbiter Weapon"
+	elseif class == "PALADIN" then
+		gcdActionSpell = "Seal of Righteousness"
+	else
+		DEFAULT_CHAT_FRAME:AddMessage("Unknow class.")
+		return nil
+	end
+
+	local cd = SuperMate.GetSpellCooldownByName(gcdActionSpell)
+	if cd == nil then
+		DEFAULT_CHAT_FRAME:AddMessage("Need learn "..gcdActionSpell, 1, 0, 0);
+		return nil
+	end
+	return cd > 0
+
 end

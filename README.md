@@ -181,3 +181,8 @@ Include spell and not cast immediately range shot(for example Steady Shot,Multi-
 /run ic = SuperMate.InCasting;
 /run if ic() then print("Now player casting...") end
 ```
+
+### Detect player in GCD
+```
+/run print("I am in GCD:"..tostring(SuperMate.InGCD()))
+```
