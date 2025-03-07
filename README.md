@@ -64,14 +64,14 @@ Put Attack, Auto Shot, Steady Shot, Multi-Shot, Aimed Shot to any action bar
 /run if hasIntimidation() and cd("Intimidation") and casting("Healing") and petCombat then c("Intimidation") end
 /run if not melee and casting("Healing") and FreeShot(0.5) and cd("Multi-Shot") and not cd("Intimidation") then c("Multi-Shot") end
 
-/run --if not melee and tarType ~= "Elemental" and tarType ~= "Mechanical" and not buffed("Serpent Sting", "target") then c("Serpent Sting") end
+/run if not melee and tarType ~= "Elemental" and tarType ~= "Mechanical" and not buffed("Serpent Sting", "target") and tarh>0.5 then c("Serpent Sting") end
 
 /run --When solo, cast Bestial Wrath before target health > 80%
 /run if hasBestial() and cd("Bestial Wrath") and petCombat and tarh>0.8 then c("Bestial Wrath") end
 
-/run if buffed("Feign Death") then unbuff("Feign Death") end
-/run if isTargetOfTarget and isBoss then if cd("Feign Death") then c("Feign Death") elseif icd("Limited Invulnerability Potion") then RunLine("/use Limited Invulnerability Potion") else c("Disengage") end end
-/run if melee and isTargetOfTarget and not isBoss then c("Disengage") end
+/run --if buffed("Feign Death") then unbuff("Feign Death") end
+/run --if isTargetOfTarget and isBoss then if cd("Feign Death") then c("Feign Death") elseif icd("Limited Invulnerability Potion") then RunLine("/use Limited Invulnerability Potion") else c("Disengage") end end
+/run --if melee and isTargetOfTarget and not isBoss then c("Disengage") end
 /run if melee and imm and cd("Mongoose Bite") then c("Mongoose Bite") end
 /run if melee and swinged and cd("Raptor Strike") then c("Raptor Strike") end
 /run local canExplosive = inRaid or not buffed("Explosive Trap", "target"); if melee and canTrap() and cd("Explosive Trap") and canExplosive then c("Explosive Trap") end
